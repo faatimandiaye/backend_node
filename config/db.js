@@ -1,0 +1,17 @@
+const mongoose = require('mongoose');
+
+
+const connectBD = async () => {
+     
+    try {
+         await mongoose.connect(process.env.URL_BD);
+         console.log('MongoDB connecté ');
+    } catch (error) {
+        console.log('Erreur mongoBD' , error.message);
+        process.exit(1);
+        
+    }
+
+}
+
+module.exports = connectBD ;
