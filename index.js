@@ -17,12 +17,26 @@ connectBD();
 app.use(express.json());
 
 // CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://frontend-node.vercel.app",
+  /^https:\/\/frontend-node.*\.vercel\.app$/, // autorise toutes les URLs preview Vercel
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://frontend-node.vercel.app",
-    ],
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.some((o) =>
+          typeof o === "string" ? o === origin : o.test(origin)
+        )
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS: " + origin));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
