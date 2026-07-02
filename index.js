@@ -5,22 +5,20 @@ const connectBD = require("./config/db");
 
 const userRoute = require("./routes/user.route");
 const questionRoute = require("./routes/question.route");
+const statsRoute = require("./routes/stats.route");
 
 dotenv.config();
 
 const app = express();
 
-// 🔌 Connexion base de données
 connectBD();
 
-// Middleware JSON
 app.use(express.json());
 
-// CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "https://frontend-node.vercel.app",
-  /^https:\/\/frontend-node.*\.vercel\.app$/, // autorise toutes les URLs preview Vercel
+  /^https:\/\/frontend-node.*\.vercel\.app$/,
 ];
 
 app.use(
@@ -42,16 +40,14 @@ app.use(
   })
 );
 
-// Routes API
 app.use("/api/questions", questionRoute);
 app.use("/api/auth", userRoute);
+app.use("/api/stats", statsRoute);
 
-// Test API
 app.get("/", (req, res) => {
   res.send("Bienvenue sur mon serveur");
 });
 
-// PORT
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
