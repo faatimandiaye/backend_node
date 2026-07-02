@@ -5,6 +5,7 @@ const {
   AfficherQuestion,
   modifierQuestion,
   supprimerQuestion,
+  voterQuestion,
 } = require("../controllers/question.controller");
 
 const {
@@ -27,9 +28,10 @@ router.get("/", AfficherQuestions);
 router.get("/:id", AfficherQuestion);
 router.put("/:id", authMiddleware, modifierQuestion);
 router.delete("/:id", authMiddleware, supprimerQuestion);
+router.post("/:id/vote", authMiddleware, voterQuestion);
 
 // =========================
-// 🔹 RÉPONSES ROUTES (IMPORTANT)
+//  RÉPONSES ROUTES (IMPORTANT)
 // =========================
 router.use("/:id/reponses", reponseRoute);
 
